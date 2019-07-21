@@ -38,3 +38,18 @@ datasets = {
 '''
 OBS: Was chosen to maintain k-1 dummies variables when we had k categories, so the missing category is identified when all dummies variables are zero.
 '''
+
+import numpy as np
+
+# printing datasets info
+print("{:10}{:18}{:}".format(
+        'Dataset:',
+        'Features.shape:',
+        '# of classes:',
+        ))
+for dataset_name, data in datasets.items():
+    print("{:9} {:17} {:}".format(
+        dataset_name, 
+        str(data['features'].shape),
+        len(np.unique(data['labels'].values, axis=0))
+        ))
