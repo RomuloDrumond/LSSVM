@@ -1,0 +1,19 @@
+kernel	data set	CPU time (mean ± std)	GPU time (mean ± std)
+linear	vc2c	14.30 ms ± 4.36 ms	22.71 ms ± 21.36 ms
+poly	vc2c	23.18 ms ± 7.49 ms	17.88 ms ± 3.64 ms
+rbf	vc2c	33.48 ms ± 18.59 ms	51.93 ms ± 41.71 ms
+linear	vc3c	53.19 ms ± 22.06 ms	114.18 ms ± 25.69 ms
+poly	vc3c	52.88 ms ± 14.15 ms	97.86 ms ± 28.40 ms
+rbf	vc3c	57.54 ms ± 14.44 ms	109.17 ms ± 34.44 ms
+linear	wf24f	42767.05 ms ± 3093.38 ms	38998.68 ms ± 204.05 ms
+poly	wf24f	58120.50 ms ± 9402.79 ms	43880.65 ms ± 2061.73 ms
+rbf	wf24f	58944.24 ms ± 15771.21 ms	45494.95 ms ± 2041.86 ms
+linear	wf4f	47013.78 ms ± 4669.18 ms	40283.47 ms ± 2130.28 ms
+poly	wf4f	44408.77 ms ± 2155.52 ms	39005.29 ms ± 394.88 ms
+rbf	wf4f	41933.33 ms ± 589.71 ms	39963.08 ms ± 43.18 ms
+linear	wf2f	41385.23 ms ± 835.96 ms	38800.94 ms ± 55.50 ms
+poly	wf2f	43544.28 ms ± 644.24 ms	38837.29 ms ± 47.27 ms
+rbf	wf2f	42032.21 ms ± 1228.18 ms	39966.47 ms ± 40.99 ms
+linear	pk	7.02 ms ± 1.29 ms	34.82 ms ± 23.42 ms
+poly	pk	11.56 ms ± 0.53 ms	10.45 ms ± 0.25 ms
+rbf	pk	11.05 ms ± 0.71 ms	11.01 ms ± 0.14 ms
