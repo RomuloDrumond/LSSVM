@@ -1,10 +1,8 @@
-# Don't track content of these folders
 venv/
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
-
-# specific files
+*.json
 
 
 # Compiled source #
@@ -28,4 +26,3 @@ __pycache__/
 *.rar
 *.tar
 *.zip
-
