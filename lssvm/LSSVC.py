@@ -1,12 +1,14 @@
 import numpy as np
 from numpy import dot
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.metrics import accuracy_score
 
 from utils.kernel import get_kernel
 from utils.import_export import dump_model, load_model
 from utils.conversion import numpy_json_encoder
 
 
-class LSSVC():
+class LSSVC(BaseEstimator, ClassifierMixin):
     """A class that implements the Least Squares Support Vector Machine 
     for classification tasks.
 
@@ -59,7 +61,7 @@ class LSSVC():
     def __init__(self, gamma=1, kernel='rbf', **kernel_params): 
         # Hyperparameters
         self.gamma = gamma
-        self.kernel_ = kernel
+        self.kernel = kernel
         self.kernel_params = kernel_params
         
         # Model parameters
@@ -160,6 +162,53 @@ class LSSVC():
             
         return y_pred_labels
 
+    def score(self, X, y):
+        """Calculates the mean accuracy on the given test data and labels.
+        - X: ndarray of shape (n_samples, n_attributes)
+            Test samples.
+        - y: ndarray of shape (n_samples,) or (n_samples, n)
+            True labels for X.
+        Returns:
+        - score: float
+            Mean accuracy of self.predict(X) wrt. y.
+        """
+        y_pred = self.predict(X)
+
+        # Ensure y and y_pred are comparable for accuracy_score
+        # accuracy_score expects 1D arrays. If y or y_pred are not,
+        # and they represent multi-label or multi-output,
+        # a simple flatten might not be appropriate.
+        # However, for typical classification, if y is (n_samples, 1)
+        # and y_pred is (n_samples, 1), they should be raveled.
+        # If y_labels are multi-dimensional (e.g. one-hot encoded originally),
+        # predict already converts them back to a single label per sample.
+        # So, y needs to be in a compatible format.
+
+        y_true_processed = y.ravel() if y.ndim > 1 and y.shape[1] == 1 else y
+        y_pred_processed = y_pred.ravel() if y_pred.ndim > 1 and y_pred.shape[1] == 1 else y_pred
+
+        # If y_labels had multiple columns (e.g. [0,1] vs [1,0]),
+        # y_true_processed and y_pred_processed might need more complex handling.
+        # For now, assuming y is comparable to the output of predict.
+        # If y_true is multi-column and not just a column vector, direct comparison might fail.
+        # This implementation assumes y is either 1D or a 2D column vector.
+        if y_true_processed.ndim > 1 or y_pred_processed.ndim > 1:
+            # This case might happen if y_labels are inherently multi-dimensional (e.g. [[0,1],[1,0]])
+            # and y is passed in that format. accuracy_score won't work directly.
+            # A more robust way would be to check equality row by row if shapes are compatible.
+            if y_true_processed.shape == y_pred_processed.shape:
+                 correct_predictions = np.all(y_true_processed == y_pred_processed, axis=1).sum()
+                 return correct_predictions / len(y_true_processed)
+            else:
+                # This indicates a shape mismatch that needs specific handling
+                # For now, raising an error or returning 0 might be options.
+                # Or, try to make them compatible if a known transformation exists.
+                # This part depends on the expected structure of y for complex labels.
+                # Assuming for now predict output and y should be made 1D if they are column vectors.
+                pass # Let accuracy_score handle it or raise error
+
+        return accuracy_score(y_true_processed, y_pred_processed)
+
     def dump(self, filepath='model', only_hyperparams=False):
         """This method saves the model in a JSON format.
         - filepath: string, default = 'model'
@@ -172,7 +221,7 @@ class LSSVC():
             'type': 'LSSVC',
             'hyperparameters': {
                 'gamma': self.gamma,
-                'kernel': self.kernel_,
+                'kernel': self.kernel,
                 'kernel_params': self.kernel_params
             }           
         }
