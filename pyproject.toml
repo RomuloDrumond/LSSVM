@@ -1,0 +1,85 @@
+[project]
+name = "lssvm"
+version = "0.1.0"
+description = "Python implementation of Least Squares Support Vector Machine (LSSVM) for classification on CPU and GPU"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Rômulo Bandeira Pimentel Drumond"},
+]
+maintainers = [
+    {name = "Rômulo Bandeira Pimentel Drumond"},
+]
+keywords = ["machine learning", "svm", "support vector machine", "lssvm", "classification", "gpu", "pytorch"]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.3.0",
+    "pandas>=2.3.0",
+    "scikit-learn>=1.7.0",
+    "scipy>=1.15.3",
+    "torch>=2.7.1",
+]
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "hypothesis>=6.135.26",
+    "mypy>=1.16.1",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.11.13",
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = [
+    "D",    # Pycodestyle: Check docstring presence and formatting
+    "F",    # Pyflakes: Unused imports, undefined names
+    "E",    # pycodestyle (Errors): PEP 8 style errors
+    "W",    # pycodestyle (Warnings): PEP 8 style warnings
+    "I",    # isort: Sort imports
+    "UP",   # pyupgrade: Modernize Python syntax
+    "B",    # flake8-bugbear: Find likely bugs and design problems
+    "C4",   # flake8-comprehensions: More idiomatic comprehensions
+    "SIM",  # flake8-simplify: Simplify complex code
+    "A",    # flake8-builtins: Prevent shadowing builtins
+    "RUF",  # Ruff-specific rules for performance and clarity
+]
+ignore = [
+    "E501", # Line too long (handled by formatter)
+    "B905", # `zip()` without `strict=` (can be noisy)
+]
+per-file-ignores = { "__init__.py" = ["F401"] }
+pydocstyle = {convention = 'numpy'}
+
+[tool.mypy]
+strict = true
+warn_unreachable = true
+disallow_any_unimported = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = [
+    "-vv",
+    "--strict-markers",
+    "--strict-config",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "property: marks tests as property-based tests",
+    "integration: marks tests as integration tests",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

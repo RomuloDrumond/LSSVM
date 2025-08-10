@@ -1,0 +1,34 @@
+name: Slow Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  slow-tests:
+    name: Run Slow Tests
+    runs-on: ubuntu-latest
+    environment: manual-approval
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          version: "0.7.x"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: make install-dev
+
+      - name: Run slow tests
+        run: make test-slow

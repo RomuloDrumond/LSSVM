@@ -1,12 +1,19 @@
+# Python
 venv/
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
-*.json
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.venv/
 
+# Build
+build/
+dist/
+*.egg-info/
 
-# Compiled source #
-###################
+# Compiled source
 *.com
 *.class
 *.dll
@@ -14,10 +21,7 @@ __pycache__/
 *.o
 *.so
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
+# Packages
 *.7z
 *.dmg
 *.gz
@@ -26,3 +30,19 @@ __pycache__/
 *.rar
 *.tar
 *.zip
+
+# IDEs
+.vscode/
+.idea/
+.cursor/
+
+# Data
+*.json
+
+# Testing
+.coverage
+htmlcov/
+.hypothesis/
+
+# OS related
+.DS_Store
