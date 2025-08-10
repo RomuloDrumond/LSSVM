@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          version: "0.7.x"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: make install-dev
+
+      - name: Check code formatting
+        run: make format-check
+
+      - name: Run linting
+        run: make lint
+
+      - name: Run type checking
+        run: make typecheck
+
+      - name: Run fast tests
+        run: make test-fast
+
+      - name: Check test coverage
+        run: make test-cov
