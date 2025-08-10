@@ -1,13 +1,27 @@
+"""Label encoding utilities for LSSVM algorithms.
+
+This module provides functions to convert between different label encoding formats.
+"""
+
 import numpy as np
 
-def dummie2multilabel(X):
-    """Convert dummies to multilabel"""
+
+def dummie2multilabel(X: np.ndarray) -> np.ndarray:
+    """Convert dummy variables to multilabel format.
+
+    Parameters
+    ----------
+    X : ndarray of shape (n_samples, n_features)
+        Input array with dummy variables (one-hot encoded).
+
+    Returns
+    -------
+    ndarray of shape (n_samples, 1)
+        Multilabel encoded array where each row contains the index
+        of the active class.
+    """
     N = len(X)
-    X_multi = np.zeros((N,1),dtype='int')
+    X_multi = np.zeros((N, 1), dtype="int")
     for i in range(N):
-        temp = np.where(X[i]==1)[0] # find 1 in the array
-        if temp.size == 0: # is a empty array, there is no '1' in the X[i] array
-            X_multi[i] = 0 # so we denote this class '0'
-        else:
-            X_multi[i] = temp[0] + 1
-    return X_multi.T[0]
+        X_multi[i] = np.where(X[i] == 1)[0]
+    return X_multi

@@ -1,0 +1,68 @@
+name: Code Quality
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  fast-checks:
+    name: Fast Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          version: "0.7.x"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: make install-dev
+
+      - name: Run linting and type checking
+        run: make check
+
+      - name: Run fast tests
+        run: make test-fast
+
+      - name: Check test coverage
+        run: make test-cov
+
+  slow-tests:
+    name: Slow Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+            enable-cache: true
+            version: "0.7.x"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: make install-dev
+
+      - name: Run slow tests
+        run: make test-slow 
