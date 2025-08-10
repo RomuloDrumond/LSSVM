@@ -4,7 +4,7 @@
 
 This repository contains a Python implementation of the **Least Squares Support Vector Machine (LSSVM)** model for both **CPU** and **GPU**. You can find theory and usage examples in the `LSSVC.ipynb` Jupyter notebook.
 
-For a better viewing experience of the notebook: https://nbviewer.jupyter.org/github/RomuloDrumond/LSSVM/blob/master/LSSVC.ipynb
+For a better viewing experience of the notebook: https://nbviewer.jupyter.org/github/RomuloDrumond/LSSVM/blob/main/LSSVC.ipynb
 
 ## Installation
 
